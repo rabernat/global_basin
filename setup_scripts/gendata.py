@@ -75,6 +75,12 @@ else:
     Nr = 64
     RC = 0.5*(RF[1:] + RF[:-1])
 
+# vertical diffusivity
+scalefac = 800.
+diff_kr = 1e-5 + 0.9e-4*(np.exp((RC-RF[-1])/scalefac))
+
+
+
 # bathymetry
 # start with full depth
 bathy = RF[-1]*np.ones_like(xc)
@@ -97,11 +103,11 @@ slopemask[xc >= (basin_width - shelfwidth_deg - slopewidth_deg)] = 1
 
 # mid ocean ridge
 ridgewidth_deg = 3.
-ridgedepth = RF[50]
+ridgedepth = RF[56]
 ridgemask = np.zeros_like(xc, 'bool')
 rslopemask = np.zeros_like(xc, 'bool')
 ridgemask[:, Nx/2] = 1
-ridgemask[yc <= (latmin + shelfwidth_deg + slopewidth_deg/4)] = 0
+ridgemask[yc <= (latmin + shelfwidth_deg + 0.9*slopewidth_deg)] = 0
 rw = ridgewidth_deg / dlon
 rslopemask[:, (Nx/2-rw):(Nx/2+rw+2)] = 1
 # special mask for the ridge / shelf transition
