@@ -17,7 +17,7 @@
   GM_AdvForm         = .TRUE.,
   GM_UseBVP          = .TRUE.,
   GM_background_K    = 1000,
-  GM_isopycK         = 2000,
+  GM_isopycK         = 1000,
   GM_Kmin_horiz      = 50,
   GM_taper_scheme    = 'dm95',
   GM_BVP_ModeNumber  = 1,

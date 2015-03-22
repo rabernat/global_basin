@@ -6,6 +6,8 @@
   exf_iprec = 32,
   hu = 10.,
   ht = 10.,
+# use stress directly from scow
+  useAtmWind = .FALSE.,
  &
  &EXF_NML_02
   aqhfile = 'aqh.corev2_zon_avg'
@@ -38,13 +40,15 @@
   ustressstartdate2 = 000000
   ustressperiod = 2.592e+06
 
-#  vstressfile = 'vstress.scow_zon_avg'
-#  vstressstartdate1 = 00000101
-#  vstressstartdate2 = 000000
-#  vstressperiod = 2.592e+06
+  vstressfile = 'vstress.scow_zon_avg'
+  vstressstartdate1 = 00000101
+  vstressstartdate2 = 000000
+  vstressperiod = 2.592e+06
 
  &
  &EXF_NML_03
+## makes v stress zero
+  exf_inscal_vstress = 0.0
  &
  &EXF_NML_04
   aqh_nlon = 2
