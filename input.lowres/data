@@ -6,11 +6,13 @@
  &PARM01
  tRef               = 32*5.0, 
  sRef               = 32*34.5,
- no_slip_sides  = .TRUE.,
- no_slip_bottom = .TRUE.,
+# had lots of grid noise, changing some parameters
+# no_slip_sides  = .TRUE.,
+# no_slip_bottom = .TRUE.,
  viscAr=0.5E-4,
  viscAh=1.E0,
- viscAhGrid=2.E-2,
+# viscAhGrid=2.E-2,
+ viscAhGrid=1.E-1,
  diffKhT=1.E1,
  diffKrT=1.E-5,
  diffKhS=1.E1,
@@ -29,7 +31,7 @@
 ### hFacInf=0.2,
 ### hFacSup=2.0,
  hFacMin=.2,
- hFacMinDr=5.,
+ hFacMinDr=20.,
  select_rStar=2,
  nonlinFreeSurf=4,
  gravity=9.81,
@@ -67,9 +69,10 @@
 
 # Time stepping parameters
  &PARM03
+# pickupSuff='ckptB',
  nIter0=0,
-# 100 years
- nTimeSteps=864000,
+# 1000 years
+ nTimeSteps=8640000,
 #
  forcing_In_AB=.FALSE.,
  momDissip_In_AB=.FALSE.,
@@ -77,8 +80,8 @@
 # epsAB_CD = 0.25,
 # tauCD=172800.0,
 
-# deltaT=3600.,
  deltaT=3600.,
+# deltaT=7200.,
 
 # deltaTmom   =3600.,
 # deltaTtracer=3600.,
@@ -92,9 +95,9 @@
  alph_AB=0.5,
  beta_AB=0.281105,
 #
- pChkptFreq  =31104000.0,
+ pChkptFreq  =3110400000.0,
  chkptFreq   =311040000.0,
- taveFreq    =31104000.0,
+ taveFreq    =311040000.0,
 # dumpFreq    =31536000.0,
 # monitorFreq = 7200.0,
  monitorFreq = 2592000.0,

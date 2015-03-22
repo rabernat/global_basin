@@ -1,0 +1,113 @@
+# ====================
+# | Model parameters |
+# ====================
+#
+# Continuous equation parameters
+# modeled after LLC_2160
+ &PARM01
+ tRef               = 64*5.0, 
+ sRef               = 64*34.5, 
+ viscAr= 5.6614e-04,
+ no_slip_sides = .TRUE.,
+ no_slip_bottom = .TRUE.,
+ diffKrT=1e-5,
+ diffKrS=1e-5,
+ rhonil=1029.,
+ rhoConstFresh=1000.,
+ eosType='JMD95Z',
+ hFacMin=0.3,
+ hFacInf=0.1,
+ hFacSup=5.,
+ implicitDiffusion=.TRUE.,
+ implicitViscosity=.TRUE.,
+#when using ggl90
+ ivdc_kappa=10.
+ viscC4Leith=2.0,
+ viscC4Leithd=2.0,
+ viscA4GridMax=0.8,
+ useAreaViscLength=.TRUE.,
+ highOrderVorticity  = .TRUE.,
+ bottomDragQuadratic = 0.0021,
+ tempAdvScheme=7,
+ saltAdvScheme=7,
+ StaggerTimeStep=.TRUE.,
+ multiDimAdvection=.TRUE.,
+ vectorInvariantMomentum=.TRUE.,
+ implicitFreeSurface=.TRUE.,
+ exactConserv=.TRUE.,
+ convertFW2Salt=-1.,
+ useRealFreshWaterFlux=.TRUE.,
+ temp_EvPrRn=0.,
+## needed for tides
+# implicSurfPress = 0.6,
+# implicDiv2DFlow = 0.6,
+ debuglevel=1,
+# I/O stuff
+ useSingleCPUio=.TRUE.,
+# useSingleCpuInput=.TRUE.,
+# globalFiles=.TRUE.,
+ readBinaryPrec=32,
+ writeBinaryPrec=32,
+ & 
+
+# Elliptic solver parameters
+ &PARM02
+ cg2dMaxIters = 100,
+ cg2dTargetResidual = 1.E-5,
+ &
+
+# Time stepping parameters
+ &PARM03
+ nIter0=0,
+ nTimeSteps=103680,
+ deltaT = 300.,
+ abEps = 0.1,
+ forcing_In_AB=.FALSE.,
+ momDissip_In_AB=.FALSE.,
+#chkptFreq    = 31104000.0,
+ chkptFreq    = 2592000,
+#pChkptFreq   = 311040000.0,
+ pChkptFreq   = 31104000.0,
+ dumpfreq     = 172800.,
+ monitorFreq  = 172800.,
+ taveFreq     = 31104000.0,
+ dumpInitAndLast=.FALSE.,
+ &
+
+# Gridding parameters
+ &PARM04
+  usingSphericalPolarGrid=.TRUE.
+  xgOrigin = 0,
+  delX = 256*0.175781,
+  ygOrigin = -70.6448,
+  delYfile = 'dely_basin_256.f4',
+  delR =10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   10.        ,   10.        ,   10.        ,
+   11.0882524 ,   12.29493414,   13.6329333 ,
+   15.11654054,   16.7616017 ,   18.58568704,
+   20.60827889,   22.8509798 ,   25.33774317,
+   28.09512916,   31.15258834,   34.54277626,
+   38.30190219,   42.4701159 ,   47.09193647,
+   52.21672778,   57.89922573,   64.20012289,
+   71.18671669,   78.93362825,   87.52359932,
+   97.04837605,  107.60968891,  119.32033917,
+  132.30540376,  146.70357113,  162.66862252,
+  180.37107446,  200.        ,  200.        ,
+  200.        ,  200.        ,  200.        ,
+  200.        ,  200.        ,  200.        ,
+  200.        ,  200.        ,  200.        ,
+  200.        ,  200.        ,  200.        ,
+  200.        
+ &
+
+# Input datasets
+ &PARM05
+  bathyFile      ='bathy_basin_256.f4',
+  hydrogThetaFile='theta_woa_256x1024x64.f4',
+  hydrogSaltFile ='salt_woa_256x1024x64.f4',
+ &
