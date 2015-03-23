@@ -1,0 +1,11 @@
+#================================================= 
+#| Ryan's Auto-Generated MITgcm data.kpp file | 
+#================================================= 
+ &KPP_PARM01
+  KPPmixingMaps=.FALSE.,
+#  minKPPhbl=30.,
+  LimitHblStable=.FALSE.,
+  KPPwriteState   = .TRUE.,
+  kpp_dumpFreq    = 0.,
+#  kpp_taveFreq    = 311040000.,
+ &
