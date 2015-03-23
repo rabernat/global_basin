@@ -3,7 +3,7 @@
  useGMRedi= .TRUE.,
 # useKPP   = .TRUE.,
 # useSBO   = .TRUE.,
-# useMNC   = .TRUE.,
+ useMNC   = .TRUE.,
  useSeaice= .TRUE.,
  useGGL90=.TRUE.,
  useSALT_PlUME=.TRUE.,

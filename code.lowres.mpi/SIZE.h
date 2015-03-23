@@ -23,6 +23,8 @@ C     Voodoo numbers controlling data layout.
 C     sNx :: No. X points in sub-grid.
 C     sNy :: No. Y points in sub-grid.
 C     OLx :: Overlap extent in X.
+C     OLy :: Overlat extent in Y.
+C     nSx :: No. sub-grids in X.
 C     nSy :: No. sub-grids in Y.
 C     nPx :: No. of processes to use in X.
 C     nPy :: No. of processes to use in Y.
@@ -43,14 +45,12 @@ C     Nr  :: No. points in Z for full process domain.
       PARAMETER (
      &           sNx =  32,
      &           sNy =  32,
-C     &           sNy = 128,
      &           OLx =   3,
      &           OLy =   3,
      &           nSx =   1,
-     &           nSy =   4,
-C     &           nSy =   1,
+     &           nSy =   1,
      &           nPx =   1,
-     &           nPy =   1,
+     &           nPy =   4,
      &           Nx  = sNx*nSx*nPx,
      &           Ny  = sNy*nSy*nPy,
      &           Nr  =  32 )
