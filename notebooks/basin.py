@@ -193,7 +193,8 @@ class BasinModel(MITgcmmodel.ModelInstance):
             except OSError:
                 pass
             for name, fig in myfigs.iteritems():
-                fname = os.path.join(out_dir, '%s%s.%s' % (name, isuff, fmt))
+                fname = os.path.join(
+                    out_dir, '%s_%s%s.%s' % (self.run_name, name, isuff, fmt))
                 fig.savefig(fname, dpi=dpi)
     
     def plot_zm_qnet(self, ax, lims=[-100,100]):
@@ -230,7 +231,7 @@ class BasinModel(MITgcmmodel.ModelInstance):
         
     def plot_zm_Kr(self, ax):
         c = self.contour_meridional_section(self.Kr.mean(axis=-1), ax, 
-                                 10.**(np.arange(-5,-0.9,0.25)),
+                                 10.**(np.arange(-5,1.1,0.25)),
                                  cmap='YlOrRd', #extend='both',
                                  locator=ticker.LogLocator())
         plt.colorbar(c, ax=ax)
@@ -246,7 +247,7 @@ class BasinModel(MITgcmmodel.ModelInstance):
         self.decorate_zonal_section(ax, j)
         ax.set_title('Meridional Velocity (cm/s) | %2.0f Latitude' % self.YG[j])
                 
-    def plot_barotropic_streamfunction(self, ax, norm=1e6, psilims=[-80,10], psilevs=5):
+    def plot_barotropic_streamfunction(self, ax, norm=1e6, psilims=[-150,10], psilevs=5):
         levs = np.arange(psilims[0],psilims[-1]+psilevs,psilevs)
         c = self.latlon_map_contourf(self.PsiZ_bt/1e6, ax, levs,
                                      cmap='RdYlBu', extend='both')
