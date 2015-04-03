@@ -2,11 +2,11 @@ import numpy as np
 from netCDF4 import Dataset
 
 # the lowest resolution
-#power_of_two = 5
-#use_lowres = True
+power_of_two = 5
+use_lowres = True
 
-power_of_two = 8
-use_lowres = False
+#power_of_two = 8
+#use_lowres = False
 
 
 tilesize = 64
@@ -79,8 +79,6 @@ else:
 scalefac = 800.
 diff_kr = 1e-5 + 0.9e-4*(np.exp((RC-RF[-1])/scalefac))
 
-
-
 # bathymetry
 # start with full depth
 bathy = RF[-1]*np.ones_like(xc)
@@ -115,9 +113,9 @@ rslopemask[:, (Nx/2-rw):(Nx/2+rw+2)] = 1
 #Nrs = rstransmask.sum()
 
 # drake passage
-dplat = [-61, -56]
+dplat = [-61, -55]
 dpdepth = RF[50]
-dpmask = shelfmask & (yc > dplat[0]) & (yc < dplat[1])
+dpmask = shelfmask & (yc >= dplat[0]) & (yc <= dplat[1])
 
 # fill in known values
 bathy[ridgemask] = ridgedepth
@@ -177,6 +175,10 @@ print "delR = ", np.array2string(
                         max_line_width=50,
                         separator=', ')[2:-1]
 
+print "diffKrNrT = ", np.array2string(
+                        diff_kr,
+                        max_line_width=50,
+                        separator=', ')[2:-1]
 
 # initial conditions from WOA
 WOA_dir = '/Users/rpa/RND/Data/NODC_WOA98'

@@ -78,7 +78,7 @@ def average_data_core(ncfilename, varname, lonname='LON',latname='LAT', fac=1.):
         d.mask = ~d.mask
         for r, iidx in regions.iteritems():  
             dz = fac*d[:,iidx].mean(axis=1)
-            dz_sm = convolve(dz, ker, boundary='extend')
+            dz_sm = convolve(dz.filled(np.nan), ker, boundary='extend')
             data[r][n] = dz_sm                      
     return data['globe'], data['atl'], data['pac'], lat
 
@@ -153,19 +153,7 @@ for ncname, varname, fac, mname in fields_core:
                 '%s.%s.nc' % (ncname, core_suff), varname, fac=fac)
     outsuff[mname] = core_outsuff
 
-for ncname, fac, mname in fields_scow:
-    glob[mname], atl[mname], pac[mname], lat[mname] = average_data_scow(
-                '%s_%s.nc' % (ncname, scow_suff), fac=fac)
-    outsuff[mname] = scow_outsuff
-
-# write output files
-# duplicate once in longitude to make sure interpolation works
 Nlon = 2
-for k, data in glob.iteritems():
-    d2d = np.tile(data[:,:,np.newaxis],[1,1,Nlon])
-    d2d.astype(tp).tofile('%s/%s.%s' % (outdir, k, outsuff[k]))
-
-
 # write data.exf
 
 header = """ &EXF_NML_01
@@ -215,3 +203,35 @@ with open('../input/data.exf', 'w') as f:
         f.write("\n")
     f.write(' &')
 
+# create a rescaled precipation 
+for scalefac in [0.,0.25,0.5,0.75, 0.9]:
+    lat0 = 40.
+    dl = 8.
+    fac = scalefac/2 + 0.5
+    scalefun = -np.tanh((lat['precip'] - lat0)/dl) * (1-fac) + fac
+    pscaled = glob['precip'] * scalefun
+    newkey = 'precip_scaled_%03d' % (100*scalefac)
+    glob[newkey] = pscaled 
+    outsuff[newkey] = outsuff['precip']
+    
+# create a rescaled N. Atl. temp
+for tfac in [2., 5., 10., 20.]:
+    dl = 8.
+    lat0 = 60.
+    scalefun = np.exp((lat['atemp'] - lat0)/dl)
+    atemp_scaled = glob['atemp'] - tfac*scalefun
+    newkey = 'atemp_cold_north_%02ddeg' % tfac
+    glob[newkey] = atemp_scaled
+    outsuff[newkey] = outsuff['atemp']
+
+
+for ncname, fac, mname in fields_scow:
+    glob[mname], atl[mname], pac[mname], lat[mname] = average_data_scow(
+                '%s_%s.nc' % (ncname, scow_suff), fac=fac)
+    outsuff[mname] = scow_outsuff
+
+# write output files
+# duplicate once in longitude to make sure interpolation works
+for k, data in glob.iteritems():
+    d2d = np.tile(data[:,:,np.newaxis],[1,1,Nlon])
+    d2d.astype(tp).tofile('%s/%s.%s' % (outdir, k, outsuff[k]))

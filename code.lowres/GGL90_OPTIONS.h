@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm_contrib/gael/verification/global_oce_llc90/code/GGL90_OPTIONS.h,v 1.1 2012/10/03 20:27:37 gforget Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/ggl90/GGL90_OPTIONS.h,v 1.6 2011/12/24 01:04:47 jmc Exp $
 C $Name:  $
 
 C     *=============================================================*
