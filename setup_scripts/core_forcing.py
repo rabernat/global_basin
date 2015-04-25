@@ -153,6 +153,29 @@ for ncname, varname, fac, mname in fields_core:
                 '%s.%s.nc' % (ncname, core_suff), varname, fac=fac)
     outsuff[mname] = core_outsuff
 
+# get climsss from WOA
+WOA_dir = '/Users/rpa/RND/Data/NODC_WOA98'
+nct = Dataset(WOA_dir + '/otemp.anal1deg.nc')
+ncs = Dataset(WOA_dir + '/salt.anal1deg.nc')
+tvar = nct.variables['otemp']
+svar = ncs.variables['salt']
+woalat = nct.variables['lat'][:]
+lev = nct.variables['level'][:]
+# just use the atlantic
+irange = np.r_[300:350]
+tbar = tvar[0,0,:,irange].mean(axis=-1)
+sbar = svar[0,0,:,irange].mean(axis=-1)
+ker = Gaussian1DKernel(1.5)
+sbar_sm = convolve(sbar.filled(34.), ker, boundary='extend')
+
+# add to array
+mname = 'climsss'
+glob[mname] = sbar_sm[::-1]
+lat[mname] = woalat[::-1]
+outsuff[mname] = 'woa98'
+climsssTauRelax = 155520000. # 5 years
+
+
 Nlon = 2
 # write data.exf
 
@@ -175,9 +198,13 @@ with open('../input/data.exf', 'w') as f:
     
     for k in myflds:
         f.write("  %sfile = '%s.%s'\n" % (k, k, outsuff[k]))
-        f.write("  %sstartdate1 = %s\n" % (k, startdate1))
-        f.write("  %sstartdate2 = %s\n" % (k, startdate2))
-        f.write("  %speriod = %g\n" % (k, forc_period))
+        if k=='climsss':
+            f.write("  %speriod = 0\n" % k)
+            f.write("  %sTauRelax = %i\n" % (k, climsssTauRelax))
+        else:
+            f.write("  %sstartdate1 = %s\n" % (k, startdate1))
+            f.write("  %sstartdate2 = %s\n" % (k, startdate2))
+            f.write("  %speriod = %g\n" % (k, forc_period))
         f.write("\n")
     f.write(' &\n')
     f.write(' &EXF_NML_03\n')
@@ -230,8 +257,14 @@ for ncname, fac, mname in fields_scow:
                 '%s_%s.nc' % (ncname, scow_suff), fac=fac)
     outsuff[mname] = scow_outsuff
 
+
+
+
 # write output files
 # duplicate once in longitude to make sure interpolation works
 for k, data in glob.iteritems():
-    d2d = np.tile(data[:,:,np.newaxis],[1,1,Nlon])
+    if k=='climsss':
+        d2d = np.tile(data[:,np.newaxis],[1,Nlon])
+    else:
+        d2d = np.tile(data[:,:,np.newaxis],[1,1,Nlon])
     d2d.astype(tp).tofile('%s/%s.%s' % (outdir, k, outsuff[k]))

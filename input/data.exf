@@ -6,8 +6,6 @@
   exf_iprec = 32,
   hu = 10.,
   ht = 10.,
-# use stress directly from scow
-  useAtmWind = .FALSE.,
  &
  &EXF_NML_02
   aqhfile = 'aqh.corev2_zon_avg'
@@ -19,6 +17,10 @@
   atempstartdate1 = 00000101
   atempstartdate2 = 000000
   atempperiod = 2.592e+06
+
+  climsssfile = 'climsss.woa98'
+  climsssperiod = 0
+  climsssTauRelax = 155520000
 
   lwdownfile = 'lwdown.corev2_zon_avg'
   lwdownstartdate1 = 00000101
@@ -35,20 +37,8 @@
   swdownstartdate2 = 000000
   swdownperiod = 2.592e+06
 
-  ustressfile = 'ustress.scow_zon_avg'
-  ustressstartdate1 = 00000101
-  ustressstartdate2 = 000000
-  ustressperiod = 2.592e+06
-
-  vstressfile = 'vstress.scow_zon_avg'
-  vstressstartdate1 = 00000101
-  vstressstartdate2 = 000000
-  vstressperiod = 2.592e+06
-
  &
  &EXF_NML_03
-## makes v stress zero
-  exf_inscal_vstress = 0.0
  &
  &EXF_NML_04
   aqh_nlon = 2
@@ -124,6 +114,13 @@
   1.90450287,  1.90439606,  1.90419769,
   1.90420532,  1.90390015,  1.90339661,
   1.90239716,  1.90000153,  1.88880157
+
+  climsss_nlon = 2
+  climsss_nlat = 180
+  climsss_lon0 = 0
+  climsss_lon_inc = 45
+  climsss_lat0 = -89.5
+  climsss_lat_inc = 179*1
 
   lwdown_nlon = 2
   lwdown_nlat = 94
@@ -235,19 +232,5 @@
   1.90447235,  1.90439606,  1.90429688,
   1.90412903,  1.90387726,  1.90341187,
   1.90245819,  1.89994049,  1.88877869
-
-  ustress_nlon = 2
-  ustress_nlat = 565
-  ustress_lon0 = 0
-  ustress_lon_inc = 45
-  ustress_lat0 = -71.125
-  ustress_lat_inc = 564*0.25
-
-  vstress_nlon = 2
-  vstress_nlat = 565
-  vstress_lon0 = 0
-  vstress_lon_inc = 45
-  vstress_lat0 = -71.125
-  vstress_lat_inc = 564*0.25
 
  &
